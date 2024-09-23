@@ -35,10 +35,7 @@ function input(prpt) {
 }
 
 async function init() {
-	const database = require('./database');
-	for(var item in database) global[item] = database[item];
-	
-	print('병아리 - the seed 모방 엔진에 오신것을 환영합니다.\n');
+	console.log('병아리 - the seed 모방 엔진에 오신것을 환영합니다.\n');
 	
 	// 호스팅 설정
 	var hostconfig = {
@@ -53,8 +50,12 @@ async function init() {
 		owners: [input('소유자 닉네임: ')],
 		disable_email: true,
 		sessionhttps: false,
+		dbtype: "pg"
 	};
-	
+	fs.writeFileSync('config.json', JSON.stringify(hostconfig), 'utf8');
+
+	const database = require('./database');
+	for(var item in database) global[item] = database[item];
 	// 만들 테이블
 	const tables = {
 		'documents': ['title', 'content', 'namespace', 'time'],
@@ -102,7 +103,7 @@ async function init() {
 		sql += `)`;
 		await curs.execute(sql);
 	}
-	print('완료!');
+	console.log('완료!');
 	
 	prt('이름공간 ACL을 만드는 중... ');
 	for(var namespc of ['문서', '틀', '분류', '파일', '더 시드']) {
@@ -162,10 +163,9 @@ async function init() {
 	
 	prt('ACL그룹을 만드는 중... ');
 	await curs.execute("insert into aclgroup_groups (name, css, warning_description, disallow_signup) values ('차단된 사용자', 'text-decoration: line-through !important; color: gray !important;', '', '1')");
-	print('완료!');
+	console.log('완료!');
 	
-	fs.writeFileSync('config.json', JSON.stringify(hostconfig), 'utf8');
-	print('\n준비 완료되었습니다. 엔진을 다시 시작하십시오.');
+	console.log('\n준비 완료되었습니다. 엔진을 다시 시작하십시오.');
 	process.exit(0);
 }
 

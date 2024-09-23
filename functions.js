@@ -248,13 +248,16 @@ function islogin(req) {
 }
 
 // 아이디 확인
+const ip_regex = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
 function ip_check(req, forceIP) {
-	if(!forceIP && req.session.username)
+	if(!forceIP && req.session.username) {
 		return req.session.username;
-	else if(hostconfig.custom_ip_header && req.headers[hostconfig.custom_ip_header.toLowerCase()])
+	} else if(hostconfig.custom_ip_header && req.headers[hostconfig.custom_ip_header.toLowerCase()]){
 		return req.headers[hostconfig.custom_ip_header.toLowerCase()]
-	else
-		return (req.headers['x-forwarded-for'] || (req.socket ? req.socket.remoteAddress : req.connection.remoteAddress) || req.ip || '10.0.0.9').split(',')[0];
+	} else {
+		const ip = (req.headers['x-forwarded-for'] || (req.socket ? req.socket.remoteAddress : req.connection.remoteAddress) || req.ip || '10.0.0.9').split(',')[0]
+		return ip_regex.test(ip) ? ip : '10.0.0.9';
+	}
 }
 
 // 사용자설정 가져오기
@@ -830,6 +833,13 @@ async function render(req, title = '', content = '', varlist = {}, subtitle = ''
 				<meta name=mobile-web-app-capable content=yes />
 				<meta name=msapplication-tooltip content="` + config.getString('wiki.site_name', '더 시드') + `" />
 				<meta name=msapplication-starturl content="/w/` + encodeURIComponent(config.getString('wiki.front_page', 'FrontPage')) + `" />
+			${ver('4.22.8') ? `
+				<meta property="og:title" content="${title}${subtitle} - ${config.getString('wiki.site_name', '더 시드')}">
+				<meta property="og:site_name" content="${config.getString('wiki.site_name', '더 시드')}">
+				<meta property="og:description" content="분류:더시드위키 더시드위키 에 오신 것을 환영합니다! 더시드포럼을 찾으신다면 https://feedback.thes">
+				<meta property="og:url" content="d">
+				<meta property="og:type" content="article">
+			` : ''}
 				<link rel=search type="application/opensearchdescription+xml" title="` + config.getString('wiki.site_name', '더 시드') + `" href="/opensearch.xml" />
 				<meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=1" />
 			${hostconfig.use_external_css ? `
