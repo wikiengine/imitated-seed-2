@@ -50,7 +50,7 @@ async function init() {
 		owners: [input('소유자 닉네임: ')],
 		disable_email: true,
 		sessionhttps: false,
-		dbtype: "pg"
+		dbtype: "sqlite"
 	};
 	fs.writeFileSync('config.json', JSON.stringify(hostconfig), 'utf8');
 
