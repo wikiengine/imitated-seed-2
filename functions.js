@@ -855,6 +855,7 @@ async function render(req, title = '', content = '', varlist = {}, subtitle = ''
 					<script type="text/javascript" src="https://theseed.io/js/dateformatter.js?508d6dd4"></script>
 					<script type="text/javascript" src="https://theseed.io/js/intersection-observer.js?36e469ff"></script>
 					<script type="text/javascript" src="https://theseed.io/js/theseed.js?24141115"></script>
+					<script src="https://cdn.jsdelivr.net/npm/unpoly@3.9.5/unpoly.min.js"></script>
 					
 				` : `
 					<!--[if (!IE)|(gt IE 8)]><!--><script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script><!--<![endif]-->
@@ -862,6 +863,7 @@ async function render(req, title = '', content = '', varlist = {}, subtitle = ''
 					<script type="text/javascript" src="/js/dateformatter.js?508d6dd4"></script>
 					<script type="text/javascript" src="/js/intersection-observer.js?36e469ff"></script>
 					<script type="text/javascript" src="/js/theseed.js?24141115"></script>
+					<script src="https://cdn.jsdelivr.net/npm/unpoly@3.9.5/unpoly.min.js"></script>
 				`}${adjs}
 			`;
 			for(var js of skinconfig.auto_js_targets['*']) {
