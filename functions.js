@@ -874,7 +874,7 @@ async function render(req, title = '', content = '', varlist = {}, subtitle = ''
 			}
 			
 			header += skinconfig.additional_heads;
-			header += '</head><body class="';
+			header += '</head><body up-target="body" class="';
 			var ac = '';
 			for(var cls of skinconfig.body_classes) {
 				ac += cls + ' ';
